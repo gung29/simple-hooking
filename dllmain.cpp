@@ -1,25 +1,35 @@
-// Defines the entry point for the DLL application.
-#include "pch.h"
-#include <Minhook.h>
+// dllmain.cpp : Defines the entry point for the DLL application.
+#include "./minhook/minhook.h"
 #include <Windows.h>
 #include <cstdio>
 #include <cstdint>
 #include "hooks.h"
 
 void init() {
-    AllocConsole();
+    if (AllocConsole() == 0) {
+        MessageBox(NULL, "Failed to allocate console", "Error", MB_ICONERROR);
+        return;
+    }
+
     FILE* f;
-    freopen_s(&f, "CONOUT$", "w", stdout);
+    if (freopen_s(&f, "CONOUT$", "w", stdout) != 0) {
+        MessageBox(NULL, "Failed to redirect stdout", "Error", MB_ICONERROR);
+        return;
+    }
 
-    MH_Initialize();
+    if (MH_Initialize() != MH_OK) {
+        MessageBox(NULL, "Failed to initialize MinHook", "Error", MB_ICONERROR);
+        return;
+    }
 
-    setupFinishBattleHook();   
+    setupFinishBattleHook();
     setupStartBattleHook();
+
+    printf("Hack loaded!\n");
 }
 
 DWORD WINAPI mainThread(LPVOID) {
     init();
-    printf("Cheat loaded!\n");
 
     return 0;
 }
