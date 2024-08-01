@@ -10,7 +10,7 @@ The `simple-hooking` project aims to provide a clear and concise example of how 
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/agungsadu/simple-hooking.git
+   git clone https://github.com/gung29/simple-hooking.git
 
 2. **Explore the Code**
 Dive into the code to understand the hooking mechanisms implemented for Ninja Kaizen.
